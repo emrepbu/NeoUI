@@ -31,5 +31,4 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":core")
-project(":core").projectDir = file("neoui")
+include(":neoui")
