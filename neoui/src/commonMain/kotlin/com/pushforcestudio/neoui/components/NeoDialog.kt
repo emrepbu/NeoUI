@@ -54,9 +54,10 @@ fun NeoDialog(
                 BasicText(
                     text = title,
                     style = TextStyle(
-                        color = colors.text,
-                        fontSize = 20.sp,
-                        fontWeight = typography.headingWeight,
+                color = colors.text,
+                    fontSize = 20.sp,
+                    fontWeight = typography.headingWeight,
+                    fontFamily = typography.headingFontFamily,
                     ),
                 )
 
@@ -68,9 +69,10 @@ fun NeoDialog(
                     BasicText(
                         text = text,
                         style = TextStyle(
-                            color = colors.text.copy(alpha = 0.8f),
-                            fontSize = 14.sp,
-                            fontWeight = typography.baseWeight,
+                    color = colors.text.copy(alpha = 0.8f),
+                    fontSize = 14.sp,
+                    fontWeight = typography.baseWeight,
+                    fontFamily = typography.baseFontFamily,
                         ),
                     )
                 }

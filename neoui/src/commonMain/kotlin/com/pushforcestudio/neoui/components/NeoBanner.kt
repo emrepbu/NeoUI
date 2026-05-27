@@ -57,6 +57,7 @@ fun NeoBanner(
                 color = colors.text,
                 fontSize = 14.sp,
                 fontWeight = typography.baseWeight,
+                fontFamily = typography.baseFontFamily,
             ),
         )
 

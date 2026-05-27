@@ -12,11 +12,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
+import com.pushforcestudio.neoui.theme.LocalNeoTypography
 
 @Composable
 fun NeoTextField(
@@ -30,6 +33,7 @@ fun NeoTextField(
     interactionSource: MutableInteractionSource? = null,
 ) {
     val colors = LocalNeoColors.current
+    val typography = LocalNeoTypography.current
     val internalInteractionSource = remember { MutableInteractionSource() }
     val resolvedInteractionSource = interactionSource ?: internalInteractionSource
 
@@ -53,6 +57,11 @@ fun NeoTextField(
                 borderColor = borderColor,
                 backgroundColor = colors.background,
             )
+            .semantics {
+                if (hint.isNotEmpty()) {
+                    contentDescription = hint
+                }
+            }
             .padding(horizontal = 16.dp, vertical = 14.dp),
     ) {
         BasicTextField(
@@ -65,6 +74,7 @@ fun NeoTextField(
             textStyle = TextStyle(
                 color = colors.text,
                 fontSize = 16.sp,
+                fontFamily = typography.baseFontFamily,
             ),
             cursorBrush = SolidColor(colors.primary),
             decorationBox = { innerTextField ->
@@ -75,6 +85,7 @@ fun NeoTextField(
                             style = TextStyle(
                                 color = colors.text.copy(alpha = 0.5f),
                                 fontSize = 16.sp,
+                                fontFamily = typography.baseFontFamily,
                             ),
                         )
                     }

@@ -24,6 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.pushforcestudio.neoui.theme.LocalNeoColors
 import com.pushforcestudio.neoui.theme.LocalNeoDimens
@@ -101,10 +104,13 @@ fun NeoButton(
                 )
                 .clickable(
                     interactionSource = resolvedInteractionSource,
-                    indication = null, // Material Ripple (Dalga) efektini tamamen kapatır
+                    indication = null, // Material Ripple (Dalga) efektini tamamen kapatir
                     enabled = enabled,
                     onClick = onClick,
                 )
+                .semantics {
+                    role = Role.Button
+                }
                 .padding(contentPadding),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,

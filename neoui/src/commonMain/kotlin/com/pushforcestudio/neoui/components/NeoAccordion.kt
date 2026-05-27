@@ -66,6 +66,7 @@ fun NeoAccordion(
                     color = colors.text,
                     fontSize = 16.sp,
                     fontWeight = typography.headingWeight,
+                    fontFamily = typography.headingFontFamily,
                 ),
             )
             BasicText(
@@ -74,6 +75,7 @@ fun NeoAccordion(
                     color = colors.text,
                     fontSize = 14.sp,
                     fontWeight = typography.headingWeight,
+                    fontFamily = typography.headingFontFamily,
                 ),
             )
         }

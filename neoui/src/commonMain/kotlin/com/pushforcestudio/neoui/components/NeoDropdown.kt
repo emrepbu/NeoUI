@@ -38,6 +38,7 @@ import androidx.compose.ui.window.PopupPositionProvider
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
 import com.pushforcestudio.neoui.theme.LocalNeoDimens
+import com.pushforcestudio.neoui.theme.LocalNeoTypography
 import kotlin.math.roundToInt
 
 @Composable
@@ -50,6 +51,7 @@ fun NeoDropdown(
 ) {
     val colors = LocalNeoColors.current
     val dimens = LocalNeoDimens.current
+    val typography = LocalNeoTypography.current
     val density = LocalDensity.current
 
     var expanded by remember { mutableStateOf(false) }
@@ -106,6 +108,7 @@ fun NeoDropdown(
                     style = TextStyle(
                         color = if (items.isEmpty()) colors.text.copy(alpha = 0.5f) else colors.text,
                         fontSize = 16.sp,
+                        fontFamily = typography.baseFontFamily,
                     ),
                 )
                 BasicText(
@@ -171,7 +174,8 @@ fun NeoDropdown(
                                     style = TextStyle(
                                         color = colors.text,
                                         fontSize = 14.sp,
-                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        fontWeight = if (isSelected) typography.headingWeight else typography.baseWeight,
+                                        fontFamily = typography.baseFontFamily,
                                     ),
                                 )
                             }

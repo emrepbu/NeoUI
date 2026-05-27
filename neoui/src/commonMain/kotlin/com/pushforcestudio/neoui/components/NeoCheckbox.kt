@@ -17,6 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
@@ -60,7 +64,11 @@ fun NeoCheckbox(
                 indication = null,
                 enabled = enabled,
                 onClick = { onCheckedChange(!checked) },
-            ),
+            )
+            .semantics {
+                role = Role.Checkbox
+                stateDescription = if (checked) "Checked" else "Not checked"
+            },
         contentAlignment = Alignment.Center,
     ) {
         Canvas(
