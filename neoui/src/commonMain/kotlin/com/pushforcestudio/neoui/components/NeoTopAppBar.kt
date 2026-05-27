@@ -23,11 +23,11 @@ fun NeoTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable (RowScope.() -> Unit) = {},
-    backgroundColor: Color = Color.White,
+    backgroundColor: Color = Color.Unspecified,
 ) {
     val colors = LocalNeoColors.current
     val dimens = LocalNeoDimens.current
-    val barBackground = backgroundColor
+    val barBackground = if (backgroundColor == Color.Unspecified) colors.background else backgroundColor
 
     Row(
         modifier = modifier

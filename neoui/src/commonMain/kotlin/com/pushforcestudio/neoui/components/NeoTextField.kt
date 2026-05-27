@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -19,8 +18,6 @@ import androidx.compose.ui.unit.sp
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
 import com.pushforcestudio.neoui.theme.LocalNeoDimens
-
-private val errorRed = Color(0xFFFF0000)
 
 @Composable
 fun NeoTextField(
@@ -41,13 +38,13 @@ fun NeoTextField(
     val isFocused by resolvedInteractionSource.collectIsFocusedAsState()
 
     val shadowColor = when {
-        isError -> errorRed
+        isError -> colors.error
         isFocused -> colors.accent
         else -> colors.shadow
     }
 
     val borderColor = when {
-        isError -> errorRed
+        isError -> colors.error
         else -> colors.border
     }
 

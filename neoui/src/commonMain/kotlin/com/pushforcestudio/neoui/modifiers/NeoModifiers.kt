@@ -13,14 +13,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 fun Modifier.neoBrutalistStyle(
-    shadowColor: Color = Color.Black,
-    borderColor: Color = Color.Black,
+    shadowColor: Color = Color.Unspecified,
+    borderColor: Color = Color.Unspecified,
     borderWidth: Dp = 4.dp,
     shadowOffsetX: Dp = 6.dp,
     shadowOffsetY: Dp = 6.dp,
     contentOffsetX: Dp = 0.dp,
     contentOffsetY: Dp = 0.dp,
-    backgroundColor: Color = Color.White,
+    backgroundColor: Color = Color.Unspecified,
     maxShadowOffsetX: Dp = 10.dp,
     maxShadowOffsetY: Dp = 10.dp,
 ): Modifier = this

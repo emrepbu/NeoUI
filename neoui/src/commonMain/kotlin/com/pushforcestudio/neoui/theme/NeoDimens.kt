@@ -8,6 +8,9 @@ data class NeoDimens(
     val shadowOffset: Dp = 6.dp,
     val borderWidth: Dp = 4.dp,
     val cornerRadius: Dp = 0.dp,
+    val paddingSmall: Dp = 8.dp,
+    val paddingMedium: Dp = 16.dp,
+    val paddingLarge: Dp = 24.dp,
 )
 
 val LocalNeoDimens = staticCompositionLocalOf { NeoDimens() }
