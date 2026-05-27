@@ -33,3 +33,42 @@ jobs:
         with:
           name: test-reports-${{ matrix.os }}
           path: "**/build/reports/tests/"
+
+  screenshots:
+    name: Screenshot Tests (${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Gradle setup
+        uses: ./.github/actions/gradle-setup
+
+      - name: Install Xvfb (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1280x1024x24 &
+          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+
+      - name: Run screenshot verification
+        run: ./gradlew :core:verifyRoborazziJvm
+
+      - name: Upload screenshot diffs (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-diffs-${{ matrix.os }}
+          path: |
+            neoui/build/outputs/roborazzi/
+            neoui/build/reports/roborazzi/
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-test-reports-${{ matrix.os }}
+          path: "**/build/reports/tests/"

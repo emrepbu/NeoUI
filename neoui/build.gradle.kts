@@ -58,6 +58,10 @@ kotlin {
 group = "com.pushforcestudio.neoui"
 version = "0.4.0"
 
+roborazzi {
+    outputDir.set(layout.projectDirectory.dir("src/jvmTest/snapshots"))
+}
+
 publishing {
     publications {
         named<MavenPublication>("kotlinMultiplatform") {
