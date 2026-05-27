@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.roborazzi)
     `maven-publish`
 }
 
@@ -41,6 +42,15 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        androidMain.dependencies {
+        }
+        jvmTest.dependencies {
+            implementation(libs.roborazzi.core.jvm)
+            implementation(libs.roborazzi.compose.desktop)
+            implementation(compose.desktop.currentOs)
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
     }
 }
