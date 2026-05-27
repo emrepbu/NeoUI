@@ -71,9 +71,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/pushforcestudio/NeoUI.git")
-                    developerConnection.set("scm:git:ssh://github.com/pushforcestudio/NeoUI.git")
-                    url.set("https://github.com/pushforcestudio/NeoUI")
+                    connection.set("scm:git:git://github.com/emrepbu/NeoUI.git")
+                    developerConnection.set("scm:git:ssh://github.com/emrepbu/NeoUI.git")
+                    url.set("https://github.com/emrepbu/NeoUI")
                 }
             }
         }
