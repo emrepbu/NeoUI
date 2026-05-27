@@ -45,7 +45,7 @@ kotlin {
 }
 
 group = "com.pushforcestudio.neoui"
-version = "0.1.6"
+version = "0.1.7"
 
 publishing {
     publications {
