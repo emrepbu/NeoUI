@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
-import com.pushforcestudio.neoui.theme.LocalNeoDimens
 
 @Composable
 fun NeoTextField(
@@ -31,7 +30,6 @@ fun NeoTextField(
     interactionSource: MutableInteractionSource? = null,
 ) {
     val colors = LocalNeoColors.current
-    val dimens = LocalNeoDimens.current
     val internalInteractionSource = remember { MutableInteractionSource() }
     val resolvedInteractionSource = interactionSource ?: internalInteractionSource
 
@@ -39,7 +37,7 @@ fun NeoTextField(
 
     val shadowColor = when {
         isError -> colors.error
-        isFocused -> colors.accent
+        isFocused -> colors.primary
         else -> colors.shadow
     }
 
@@ -53,12 +51,7 @@ fun NeoTextField(
             .neoBrutalistStyle(
                 shadowColor = shadowColor,
                 borderColor = borderColor,
-                borderWidth = dimens.borderWidth,
-                shadowOffsetX = dimens.shadowOffset,
-                shadowOffsetY = dimens.shadowOffset,
                 backgroundColor = colors.background,
-                maxShadowOffsetX = dimens.shadowOffset,
-                maxShadowOffsetY = dimens.shadowOffset,
             )
             .padding(horizontal = 16.dp, vertical = 14.dp),
     ) {
@@ -70,17 +63,17 @@ fun NeoTextField(
             singleLine = singleLine,
             interactionSource = resolvedInteractionSource,
             textStyle = TextStyle(
-                color = colors.foreground,
+                color = colors.text,
                 fontSize = 16.sp,
             ),
-            cursorBrush = SolidColor(colors.accent),
+            cursorBrush = SolidColor(colors.primary),
             decorationBox = { innerTextField ->
                 Box {
                     if (value.isEmpty() && hint.isNotEmpty()) {
                         BasicText(
                             text = hint,
                             style = TextStyle(
-                                color = colors.foreground.copy(alpha = 0.5f),
+                                color = colors.text.copy(alpha = 0.5f),
                                 fontSize = 16.sp,
                             ),
                         )

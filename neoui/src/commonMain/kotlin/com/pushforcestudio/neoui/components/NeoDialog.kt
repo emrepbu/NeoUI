@@ -23,7 +23,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
-import com.pushforcestudio.neoui.theme.LocalNeoDimens
+import com.pushforcestudio.neoui.theme.LocalNeoTypography
 
 @Composable
 fun NeoDialog(
@@ -37,7 +37,7 @@ fun NeoDialog(
     content: (@Composable () -> Unit)? = null,
 ) {
     val colors = LocalNeoColors.current
-    val dimens = LocalNeoDimens.current
+    val typography = LocalNeoTypography.current
     val resolvedBackground = if (backgroundColor == Color.Unspecified) colors.background else backgroundColor
 
     Dialog(
@@ -47,25 +47,16 @@ fun NeoDialog(
         Box(
             modifier = modifier
                 .widthIn(min = 280.dp, max = 400.dp)
-                .neoBrutalistStyle(
-                    shadowColor = colors.shadow,
-                    borderColor = colors.border,
-                    borderWidth = dimens.borderWidth,
-                    shadowOffsetX = 8.dp,
-                    shadowOffsetY = 8.dp,
-                    backgroundColor = resolvedBackground,
-                    maxShadowOffsetX = 12.dp,
-                    maxShadowOffsetY = 12.dp,
-                )
+                .neoBrutalistStyle(backgroundColor = resolvedBackground)
                 .padding(24.dp),
         ) {
             Column {
                 BasicText(
                     text = title,
                     style = TextStyle(
-                        color = colors.foreground,
+                        color = colors.text,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Black,
+                        fontWeight = typography.headingWeight,
                     ),
                 )
 
@@ -77,8 +68,9 @@ fun NeoDialog(
                     BasicText(
                         text = text,
                         style = TextStyle(
-                            color = colors.foreground.copy(alpha = 0.8f),
+                            color = colors.text.copy(alpha = 0.8f),
                             fontSize = 14.sp,
+                            fontWeight = typography.baseWeight,
                         ),
                     )
                 }

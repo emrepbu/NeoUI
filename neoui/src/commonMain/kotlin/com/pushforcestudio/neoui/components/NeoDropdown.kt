@@ -83,16 +83,7 @@ fun NeoDropdown(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .neoBrutalistStyle(
-                    shadowColor = colors.shadow,
-                    borderColor = colors.border,
-                    borderWidth = dimens.borderWidth,
-                    shadowOffsetX = dimens.shadowOffset,
-                    shadowOffsetY = dimens.shadowOffset,
-                    backgroundColor = colors.background,
-                    maxShadowOffsetX = dimens.shadowOffset,
-                    maxShadowOffsetY = dimens.shadowOffset,
-                )
+                .neoBrutalistStyle()
                 .onGloballyPositioned { coordinates ->
                     anchorPosition = coordinates.positionInWindow()
                     anchorSize = coordinates.size
@@ -113,14 +104,14 @@ fun NeoDropdown(
                     text = if (items.isEmpty()) placeholder else selectedLabel,
                     modifier = Modifier.weight(1f),
                     style = TextStyle(
-                        color = if (items.isEmpty()) colors.foreground.copy(alpha = 0.5f) else colors.foreground,
+                        color = if (items.isEmpty()) colors.text.copy(alpha = 0.5f) else colors.text,
                         fontSize = 16.sp,
                     ),
                 )
                 BasicText(
                     text = "\u25BC",
                     style = TextStyle(
-                        color = colors.foreground,
+                        color = colors.text,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Black,
                     ),
@@ -136,16 +127,7 @@ fun NeoDropdown(
                 Box(
                     modifier = Modifier
                         .widthIn(max = 400.dp)
-                        .neoBrutalistStyle(
-                            shadowColor = colors.shadow,
-                            borderColor = colors.border,
-                            borderWidth = dimens.borderWidth,
-                            shadowOffsetX = dimens.shadowOffset,
-                            shadowOffsetY = dimens.shadowOffset,
-                            backgroundColor = colors.background,
-                            maxShadowOffsetX = dimens.shadowOffset,
-                            maxShadowOffsetY = dimens.shadowOffset,
-                        ),
+                        .neoBrutalistStyle(),
                 ) {
                     Column(
                         modifier = Modifier
@@ -169,7 +151,7 @@ fun NeoDropdown(
                                         if (isSelected) mod.let {
                                             it.then(
                                                 Modifier.drawBehind {
-                                                    drawRect(color = colors.accent)
+                                                    drawRect(color = colors.primary)
                                                 },
                                             )
                                         } else mod
@@ -187,7 +169,7 @@ fun NeoDropdown(
                                 BasicText(
                                     text = item,
                                     style = TextStyle(
-                                        color = colors.foreground,
+                                        color = colors.text,
                                         fontSize = 14.sp,
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                     ),

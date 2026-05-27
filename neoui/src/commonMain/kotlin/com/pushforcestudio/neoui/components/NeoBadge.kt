@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
+import com.pushforcestudio.neoui.theme.LocalNeoTypography
 
 @Composable
 fun NeoBadge(
@@ -21,21 +21,13 @@ fun NeoBadge(
     textColor: Color = Color.Unspecified,
 ) {
     val colors = LocalNeoColors.current
-    val resolvedBackground = if (backgroundColor == Color.Unspecified) colors.accent else backgroundColor
-    val resolvedTextColor = if (textColor == Color.Unspecified) colors.foreground else textColor
+    val typography = LocalNeoTypography.current
+    val resolvedBackground = if (backgroundColor == Color.Unspecified) colors.primary else backgroundColor
+    val resolvedTextColor = if (textColor == Color.Unspecified) colors.text else textColor
 
     Box(
         modifier = modifier
-            .neoBrutalistStyle(
-                shadowColor = colors.shadow,
-                borderColor = colors.border,
-                borderWidth = 2.dp,
-                shadowOffsetX = 2.dp,
-                shadowOffsetY = 2.dp,
-                backgroundColor = resolvedBackground,
-                maxShadowOffsetX = 4.dp,
-                maxShadowOffsetY = 4.dp,
-            )
+            .neoBrutalistStyle(backgroundColor = resolvedBackground)
             .padding(horizontal = 8.dp, vertical = 4.dp),
     ) {
         BasicText(
@@ -43,7 +35,7 @@ fun NeoBadge(
             style = TextStyle(
                 color = resolvedTextColor,
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = typography.headingWeight,
             ),
         )
     }

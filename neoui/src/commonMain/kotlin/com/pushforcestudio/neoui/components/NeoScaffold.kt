@@ -9,8 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-
-import com.pushforcestudio.neoui.theme.NeoTheme
+import com.pushforcestudio.neoui.theme.LocalNeoColors
 
 @Composable
 fun NeoScaffold(
@@ -20,7 +19,8 @@ fun NeoScaffold(
     backgroundColor: Color = Color.Unspecified,
     content: @Composable (PaddingValues) -> Unit,
 ) {
-    val bg = if (backgroundColor == Color.Unspecified) NeoTheme.colors.background else backgroundColor
+    val colors = LocalNeoColors.current
+    val bg = if (backgroundColor == Color.Unspecified) colors.background else backgroundColor
 
     Column(
         modifier = modifier

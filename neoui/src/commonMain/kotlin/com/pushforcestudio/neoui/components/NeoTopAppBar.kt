@@ -14,8 +14,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.pushforcestudio.neoui.theme.LocalNeoDimens
 import com.pushforcestudio.neoui.theme.LocalNeoColors
+import com.pushforcestudio.neoui.theme.LocalNeoDimens
 
 @Composable
 fun NeoTopAppBar(

@@ -34,7 +34,7 @@ fun NeoSwitch(
     val resolvedInteractionSource = interactionSource ?: internalInteractionSource
 
     val trackBackground by animateColorAsState(
-        targetValue = if (checked) colors.accent else colors.background,
+        targetValue = if (checked) colors.primary else colors.background,
         animationSpec = tween(durationMillis = 150),
     )
 
@@ -48,16 +48,7 @@ fun NeoSwitch(
 
     Box(
         modifier = modifier
-            .neoBrutalistStyle(
-                shadowColor = colors.shadow,
-                borderColor = colors.border,
-                borderWidth = dimens.borderWidth,
-                shadowOffsetX = dimens.shadowOffset,
-                shadowOffsetY = dimens.shadowOffset,
-                backgroundColor = trackBackground,
-                maxShadowOffsetX = dimens.shadowOffset,
-                maxShadowOffsetY = dimens.shadowOffset,
-            )
+            .neoBrutalistStyle(backgroundColor = trackBackground)
             .size(width = 58.dp, height = 34.dp)
             .clickable(
                 interactionSource = resolvedInteractionSource,
@@ -70,7 +61,7 @@ fun NeoSwitch(
             modifier = Modifier
                 .offset(x = thumbOffsetX, y = 7.dp)
                 .size(20.dp)
-                .background(color = colors.foreground),
+                .background(color = colors.text),
         )
     }
 }

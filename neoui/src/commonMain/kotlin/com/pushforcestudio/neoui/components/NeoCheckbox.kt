@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -36,14 +37,14 @@ fun NeoCheckbox(
 
     val isPressed by resolvedInteractionSource.collectIsPressedAsState()
 
-    val targetShadowOffset by animateDpAsState(
-        targetValue = if (isPressed) 0.dp else dimens.shadowOffset,
+    val contentOffsetX by animateDpAsState(
+        targetValue = if (isPressed) dimens.horizontalShadowOffset else 0.dp,
     )
-    val targetContentOffset by animateDpAsState(
-        targetValue = if (isPressed) dimens.shadowOffset else 0.dp,
+    val contentOffsetY by animateDpAsState(
+        targetValue = if (isPressed) dimens.verticalShadowOffset else 0.dp,
     )
 
-    val background = if (checked) colors.accent else colors.background
+    val background = if (checked) colors.primary else colors.background
 
     val crossAlpha by animateFloatAsState(
         targetValue = if (checked) 1f else 0f,
@@ -52,18 +53,8 @@ fun NeoCheckbox(
 
     Box(
         modifier = modifier
-            .neoBrutalistStyle(
-                shadowColor = colors.shadow,
-                borderColor = colors.border,
-                borderWidth = dimens.borderWidth,
-                shadowOffsetX = targetShadowOffset,
-                shadowOffsetY = targetShadowOffset,
-                contentOffsetX = targetContentOffset,
-                contentOffsetY = targetContentOffset,
-                backgroundColor = background,
-                maxShadowOffsetX = dimens.shadowOffset,
-                maxShadowOffsetY = dimens.shadowOffset,
-            )
+            .neoBrutalistStyle(backgroundColor = background)
+            .offset(x = contentOffsetX, y = contentOffsetY)
             .clickable(
                 interactionSource = resolvedInteractionSource,
                 indication = null,
@@ -81,13 +72,13 @@ fun NeoCheckbox(
                 val strokeWidth = 4.dp.toPx()
                 val inset = strokeWidth
                 drawLine(
-                    color = colors.foreground.copy(alpha = crossAlpha),
+                    color = colors.text.copy(alpha = crossAlpha),
                     start = Offset(inset, inset),
                     end = Offset(size.width - inset, size.height - inset),
                     strokeWidth = strokeWidth,
                 )
                 drawLine(
-                    color = colors.foreground.copy(alpha = crossAlpha),
+                    color = colors.text.copy(alpha = crossAlpha),
                     start = Offset(size.width - inset, inset),
                     end = Offset(inset, size.height - inset),
                     strokeWidth = strokeWidth,

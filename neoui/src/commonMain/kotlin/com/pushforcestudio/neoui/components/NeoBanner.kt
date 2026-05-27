@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
 import com.pushforcestudio.neoui.theme.LocalNeoColors
-import com.pushforcestudio.neoui.theme.LocalNeoDimens
+import com.pushforcestudio.neoui.theme.LocalNeoTypography
 
 enum class BannerType {
     INFO, SUCCESS, ERROR
@@ -35,7 +35,7 @@ fun NeoBanner(
     onDismiss: (() -> Unit)? = null,
 ) {
     val colors = LocalNeoColors.current
-    val dimens = LocalNeoDimens.current
+    val typography = LocalNeoTypography.current
 
     val backgroundColor = when (type) {
         BannerType.INFO -> Color(0xFF00E5FF)
@@ -45,16 +45,7 @@ fun NeoBanner(
 
     Row(
         modifier = modifier
-            .neoBrutalistStyle(
-                shadowColor = colors.shadow,
-                borderColor = colors.border,
-                borderWidth = dimens.borderWidth,
-                shadowOffsetX = dimens.shadowOffset,
-                shadowOffsetY = dimens.shadowOffset,
-                backgroundColor = backgroundColor,
-                maxShadowOffsetX = dimens.shadowOffset,
-                maxShadowOffsetY = dimens.shadowOffset,
-            )
+            .neoBrutalistStyle(backgroundColor = backgroundColor)
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -63,9 +54,9 @@ fun NeoBanner(
             text = message,
             modifier = Modifier.weight(1f),
             style = TextStyle(
-                color = colors.foreground,
+                color = colors.text,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = typography.baseWeight,
             ),
         )
 
@@ -85,7 +76,7 @@ fun NeoBanner(
                 BasicText(
                     text = "\u2715",
                     style = TextStyle(
-                        color = colors.foreground,
+                        color = colors.text,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Black,
                     ),
