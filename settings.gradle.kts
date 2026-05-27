@@ -31,4 +31,5 @@ plugins {
 
 rootProject.name = "NeoUI"
 
-include(":neoui")
+include(":core")
+project(":core").projectDir = file("neoui")
