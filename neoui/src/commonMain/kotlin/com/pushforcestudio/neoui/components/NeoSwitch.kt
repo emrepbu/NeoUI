@@ -9,12 +9,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -67,7 +67,10 @@ fun NeoSwitch(
     ) {
         Box(
             modifier = Modifier
-                .offset(x = thumbOffsetX, y = 7.dp)
+                .graphicsLayer {
+                    translationX = thumbOffsetX.toPx()
+                    translationY = 7.dp.toPx()
+                }
                 .size(20.dp)
                 .background(color = colors.text),
         )

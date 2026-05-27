@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -34,14 +34,16 @@ fun NeoTopAppBar(
             .fillMaxWidth()
             .height(56.dp)
             .background(barBackground)
-            .drawBehind {
+            .drawWithCache {
                 val sw = dimens.borderWidth.toPx()
-                drawLine(
-                    color = colors.border,
-                    start = Offset(0f, size.height - sw / 2f),
-                    end = Offset(size.width, size.height - sw / 2f),
-                    strokeWidth = sw,
-                )
+                onDrawBehind {
+                    drawLine(
+                        color = colors.border,
+                        start = Offset(0f, size.height - sw / 2f),
+                        end = Offset(size.width, size.height - sw / 2f),
+                        strokeWidth = sw,
+                    )
+                }
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {

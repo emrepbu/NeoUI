@@ -1,5 +1,6 @@
 package com.pushforcestudio.neoui.theme
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import kotlin.math.cos
 import kotlin.math.pow
@@ -38,6 +39,7 @@ fun oklchColor(l: Float, c: Float, h: Float): Color {
     )
 }
 
+@Immutable
 data class NeoColorScheme(
     val name: String,
     val light: NeoColors,

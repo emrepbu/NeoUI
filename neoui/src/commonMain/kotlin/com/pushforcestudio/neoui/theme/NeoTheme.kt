@@ -16,7 +16,7 @@ object NeoTheme {
         @Composable get() = LocalNeoTypography.current
 }
 
-private fun standardLightColors() = NeoColors(
+private val StandardLightColors = NeoColors(
     surface = Color.White,
     text = Color.Black,
     border = Color.Black,
@@ -25,7 +25,7 @@ private fun standardLightColors() = NeoColors(
     secondary = Color(0xFF00E5FF),
 )
 
-private fun standardDarkColors() = NeoColors(
+private val StandardDarkColors = NeoColors(
     surface = Color(0xFF1E1E1E),
     text = Color.White,
     border = Color.Black,
@@ -49,7 +49,7 @@ fun NeoTheme(
     }
 
     val schemeColors = if (isDark) colorScheme.dark else colorScheme.light
-    val standard = if (isDark) standardDarkColors() else standardLightColors()
+    val standard = if (isDark) StandardDarkColors else StandardLightColors
 
     val colors = schemeColors.copy(
         surface = standard.surface,

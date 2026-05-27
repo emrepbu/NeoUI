@@ -1,8 +1,10 @@
 package com.pushforcestudio.neoui.components
 
+import androidx.compose.runtime.Stable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
+@Stable
 class NeoSnackbarState {
     data class SnackbarData(
         val message: String,

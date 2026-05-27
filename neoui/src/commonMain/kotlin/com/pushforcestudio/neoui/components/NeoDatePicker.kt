@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,17 +16,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pushforcestudio.neoui.modifiers.neoBrutalistStyle
@@ -35,15 +37,59 @@ import com.pushforcestudio.neoui.theme.LocalNeoColors
 import com.pushforcestudio.neoui.theme.LocalNeoDimens
 import com.pushforcestudio.neoui.theme.LocalNeoTypography
 
+@Immutable
+class NeoDatePickerColors internal constructor(
+    val containerBackground: Color,
+    val borderColor: Color,
+    val shadowColor: Color,
+    val headerTextColor: Color,
+    val weekdayTextColor: Color,
+    val selectedContainer: Color,
+    val selectedText: Color,
+    val currentMonthText: Color,
+    val adjacentMonthText: Color,
+    val todayIndicator: Color,
+    val selectedShadow: Color,
+    val borderWidth: Dp,
+    val shadowOffsetX: Dp,
+    val shadowOffsetY: Dp,
+    val cornerRadius: Dp,
+)
+
+object NeoDatePickerDefaults {
+
+    @Composable
+    fun colors(): NeoDatePickerColors {
+        val colors = LocalNeoColors.current
+        val dimens = LocalNeoDimens.current
+        return NeoDatePickerColors(
+            containerBackground = colors.surface,
+            borderColor = colors.border,
+            shadowColor = colors.shadow,
+            headerTextColor = colors.text,
+            weekdayTextColor = colors.text.copy(alpha = 0.5f),
+            selectedContainer = colors.primary,
+            selectedText = colors.text,
+            currentMonthText = colors.text,
+            adjacentMonthText = colors.text.copy(alpha = 0.3f),
+            todayIndicator = colors.secondary,
+            selectedShadow = colors.shadow,
+            borderWidth = dimens.borderWidth,
+            shadowOffsetX = dimens.horizontalShadowOffset,
+            shadowOffsetY = dimens.verticalShadowOffset,
+            cornerRadius = dimens.cornerRadius,
+        )
+    }
+}
+
 @Composable
 fun NeoDatePicker(
     selectedDate: NeoDate? = null,
     onDateSelected: (NeoDate) -> Unit,
     modifier: Modifier = Modifier,
     today: NeoDate? = null,
+    colors: NeoDatePickerColors = NeoDatePickerDefaults.colors(),
 ) {
-    val colors = LocalNeoColors.current
-    val dimens = LocalNeoDimens.current
     val typography = LocalNeoTypography.current
 
     val initialMonth = selectedDate?.month ?: today?.month ?: 1
@@ -57,12 +103,18 @@ fun NeoDatePicker(
 
     Box(
         modifier = modifier
-            .neoBrutalistStyle(backgroundColor = colors.surface)
+            .neoBrutalistStyle(
+                backgroundColor = colors.containerBackground,
+                borderColor = colors.borderColor,
+                shadowColor = colors.shadowColor,
+            )
             .padding(12.dp),
     ) {
         Column {
             MonthHeader(
                 label = label,
+                colors = colors,
+                typography = typography,
                 onPrev = {
                     val (m, y) = prevMonth(currentMonth, currentYear)
                     currentMonth = m; currentYear = y
@@ -75,7 +127,7 @@ fun NeoDatePicker(
 
             Spacer(Modifier.height(8.dp))
 
-            WeekdaysRow()
+            WeekdaysRow(colors = colors, typography = typography)
 
             Spacer(Modifier.height(4.dp))
 
@@ -85,6 +137,7 @@ fun NeoDatePicker(
                 currentYear = currentYear,
                 selectedDate = selectedDate,
                 today = today,
+                colors = colors,
                 onDateSelected = onDateSelected,
             )
         }
@@ -94,12 +147,11 @@ fun NeoDatePicker(
 @Composable
 private fun MonthHeader(
     label: String,
+    colors: NeoDatePickerColors,
+    typography: com.pushforcestudio.neoui.theme.NeoTypography,
     onPrev: () -> Unit,
     onNext: () -> Unit,
 ) {
-    val colors = LocalNeoColors.current
-    val typography = LocalNeoTypography.current
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -117,7 +169,7 @@ private fun MonthHeader(
             BasicText(
                 text = "\u2039",
                 style = TextStyle(
-                    color = colors.text,
+                    color = colors.headerTextColor,
                     fontSize = 22.sp,
                     fontWeight = typography.headingWeight,
                 ),
@@ -128,7 +180,7 @@ private fun MonthHeader(
             text = label,
             modifier = Modifier.weight(1f),
             style = TextStyle(
-                color = colors.text,
+                color = colors.headerTextColor,
                 fontSize = 16.sp,
                 fontWeight = typography.headingWeight,
                 fontFamily = typography.headingFontFamily,
@@ -149,7 +201,7 @@ private fun MonthHeader(
             BasicText(
                 text = "\u203A",
                 style = TextStyle(
-                    color = colors.text,
+                    color = colors.headerTextColor,
                     fontSize = 22.sp,
                     fontWeight = typography.headingWeight,
                 ),
@@ -159,9 +211,10 @@ private fun MonthHeader(
 }
 
 @Composable
-private fun WeekdaysRow() {
-    val colors = LocalNeoColors.current
-    val typography = LocalNeoTypography.current
+private fun WeekdaysRow(
+    colors: NeoDatePickerColors,
+    typography: com.pushforcestudio.neoui.theme.NeoTypography,
+) {
     val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
     Row(modifier = Modifier.fillMaxWidth()) {
@@ -170,7 +223,7 @@ private fun WeekdaysRow() {
                 BasicText(
                     text = day,
                     style = TextStyle(
-                        color = colors.text.copy(alpha = 0.5f),
+                        color = colors.weekdayTextColor,
                         fontSize = 11.sp,
                         fontWeight = typography.baseWeight,
                         fontFamily = typography.baseFontFamily,
@@ -189,6 +242,7 @@ private fun DaysGrid(
     currentYear: Int,
     selectedDate: NeoDate?,
     today: NeoDate?,
+    colors: NeoDatePickerColors,
     onDateSelected: (NeoDate) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -214,6 +268,7 @@ private fun DaysGrid(
                                 isCurrentMonth = isCurrentMonth,
                                 isSelected = isSelected,
                                 isToday = isToday,
+                                colors = colors,
                                 onClick = { onDateSelected(date) },
                             )
                         } else {
@@ -232,16 +287,15 @@ private fun NeoDayCell(
     isCurrentMonth: Boolean,
     isSelected: Boolean,
     isToday: Boolean,
+    colors: NeoDatePickerColors,
     onClick: () -> Unit,
 ) {
-    val colors = LocalNeoColors.current
-    val dimens = LocalNeoDimens.current
     val typography = LocalNeoTypography.current
 
     val textColor = when {
-        isSelected -> colors.text
-        isCurrentMonth -> colors.text
-        else -> colors.text.copy(alpha = 0.3f)
+        isSelected -> colors.selectedText
+        isCurrentMonth -> colors.currentMonthText
+        else -> colors.adjacentMonthText
     }
 
     val fontWeight = when {
@@ -255,33 +309,31 @@ private fun NeoDayCell(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .drawBehind {
-                    drawRoundRect(
-                        color = colors.shadow,
-                        topLeft = Offset(
-                            x = dimens.horizontalShadowOffset.toPx(),
-                            y = dimens.verticalShadowOffset.toPx(),
-                        ),
-                        size = size,
-                        cornerRadius = CornerRadius(dimens.cornerRadius.toPx()),
+                .drawWithCache {
+                    val cachedOffset = Offset(
+                        x = colors.shadowOffsetX.toPx(),
+                        y = colors.shadowOffsetY.toPx(),
                     )
+                    val cachedCornerRadius = CornerRadius(colors.cornerRadius.toPx())
+
+                    onDrawBehind {
+                        drawRoundRect(
+                            color = colors.selectedShadow,
+                            topLeft = cachedOffset,
+                            size = size,
+                            cornerRadius = cachedCornerRadius,
+                        )
+                    }
                 },
             propagateMinConstraints = true,
         ) {
             Box(
                 modifier = Modifier
-                    .offset(x = dimens.horizontalShadowOffset, y = dimens.verticalShadowOffset)
+                    .offset(x = colors.shadowOffsetX, y = colors.shadowOffsetY)
                     .fillMaxWidth()
                     .size(cellSize)
-                    .background(
-                        color = colors.primary,
-                        shape = RoundedCornerShape(dimens.cornerRadius),
-                    )
-                    .border(
-                        width = dimens.borderWidth,
-                        color = colors.border,
-                        shape = RoundedCornerShape(dimens.cornerRadius),
-                    )
+                    .background(color = colors.selectedContainer, shape = RoundedCornerShape(colors.cornerRadius))
+                    .border(width = colors.borderWidth, color = colors.borderColor, shape = RoundedCornerShape(colors.cornerRadius))
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
@@ -306,16 +358,18 @@ private fun NeoDayCell(
             modifier = Modifier
                 .fillMaxWidth()
                 .size(cellSize)
-                .drawBehind {
-                    if (isToday) {
-                        val lineWidth = 3.dp.toPx()
-                        val lineY = size.height - lineWidth / 2f
-                        drawLine(
-                            color = colors.secondary,
-                            start = Offset(size.width * 0.25f, lineY),
-                            end = Offset(size.width * 0.75f, lineY),
-                            strokeWidth = lineWidth,
-                        )
+                .drawWithCache {
+                    val lineWidth = 3.dp.toPx()
+                    onDrawBehind {
+                        if (isToday) {
+                            val lineY = size.height - lineWidth / 2f
+                            drawLine(
+                                color = colors.todayIndicator,
+                                start = Offset(size.width * 0.25f, lineY),
+                                end = Offset(size.width * 0.75f, lineY),
+                                strokeWidth = lineWidth,
+                            )
+                        }
                     }
                 }
                 .clickable(

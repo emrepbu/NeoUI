@@ -1,8 +1,10 @@
 package com.pushforcestudio.neoui.theme
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
+@Immutable
 data class NeoColors(
     val background: Color = Color.White,
     val surface: Color = Color.White,

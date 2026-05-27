@@ -5,7 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -42,18 +42,23 @@ fun Modifier.neoBrutalistStyle(
 
     return this
         .padding(start = paddingStart, top = paddingTop, end = paddingEnd, bottom = paddingBottom)
-        .drawBehind {
+        .drawWithCache {
             val cornerRadiusPx = resolvedCornerRadius.toPx()
             val shadowPxX = resolvedShadowOffsetX.toPx()
             val shadowPxY = resolvedShadowOffsetY.toPx()
+            val cachedCornerRadius = CornerRadius(cornerRadiusPx, cornerRadiusPx)
+            val cachedOffset = Offset(shadowPxX, shadowPxY)
+            val hasShadow = resolvedShadowOffsetX != 0.dp || resolvedShadowOffsetY != 0.dp
 
-            if (resolvedShadowOffsetX != 0.dp || resolvedShadowOffsetY != 0.dp) {
-                drawRoundRect(
-                    color = resolvedShadowColor,
-                    topLeft = Offset(shadowPxX, shadowPxY),
-                    cornerRadius = CornerRadius(cornerRadiusPx, cornerRadiusPx),
-                    size = size,
-                )
+            onDrawBehind {
+                if (hasShadow) {
+                    drawRoundRect(
+                        color = resolvedShadowColor,
+                        topLeft = cachedOffset,
+                        cornerRadius = cachedCornerRadius,
+                        size = size,
+                    )
+                }
             }
         }
         .background(color = resolvedBackgroundColor)

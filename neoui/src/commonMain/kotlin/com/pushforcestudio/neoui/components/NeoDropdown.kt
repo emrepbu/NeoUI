@@ -20,7 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
@@ -153,20 +153,25 @@ fun NeoDropdown(
                                     .let { mod ->
                                         if (isSelected) mod.let {
                                             it.then(
-                                                Modifier.drawBehind {
-                                                    drawRect(color = colors.primary)
+                                                Modifier.drawWithCache {
+                                                    onDrawBehind {
+                                                        drawRect(color = colors.primary)
+                                                    }
                                                 },
                                             )
                                         } else mod
                                     }
                                     .padding(horizontal = 12.dp, vertical = 10.dp)
-                                    .drawBehind {
-                                        drawLine(
-                                            color = colors.border,
-                                            start = Offset(0f, size.height),
-                                            end = Offset(size.width, size.height),
-                                            strokeWidth = dimens.borderWidth.toPx(),
-                                        )
+                                    .drawWithCache {
+                                        val strokeW = dimens.borderWidth.toPx()
+                                        onDrawBehind {
+                                            drawLine(
+                                                color = colors.border,
+                                                start = Offset(0f, size.height),
+                                                end = Offset(size.width, size.height),
+                                                strokeWidth = strokeW,
+                                            )
+                                        }
                                     },
                             ) {
                                 BasicText(
