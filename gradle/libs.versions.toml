@@ -2,7 +2,7 @@
 agp = "9.0.1"
 android-compileSdk = "36"
 android-minSdk = "24"
-composeMultiplatform = "1.11.0"
+composeMultiplatform = "1.11.1"
 kotlin = "2.3.21"
 junit = "4.13.2"
 kotlinx-coroutines = "1.8.1"
