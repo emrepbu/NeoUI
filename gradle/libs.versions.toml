@@ -7,7 +7,7 @@ kotlin = "2.3.21"
 junit = "4.13.2"
 kotlinx-coroutines = "1.8.1"
 roborazzi = "1.63.0"
-robolectric = "4.14.1"
+robolectric = "4.16.1"
 androidx-test-ext-junit = "1.2.1"
 androidx-compose-ui-test = "1.8.0"
 
